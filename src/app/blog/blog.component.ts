@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {ApiService} from "../services/api.service";
-import {error} from "util";
 
 @Component({
   selector: 'app-blog',
@@ -25,10 +24,10 @@ export class BlogComponent implements OnInit
 
   getBlog(id: number)
   {
-    this.api.get("api/blogs/"+id).subscribe(res=>{
-      this.blog = res[0].blog;
-
-    },error=>alert(error));
+    this.api.get("api/blogs/" + id).subscribe(res =>
+    {
+      this.blog = (<any>res[0]).blog;
+    }, error => alert(error));
   }
 
 }

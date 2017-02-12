@@ -5,7 +5,6 @@ import * as $ from "jquery";
 import {UtilsService} from "../services/utils.service";
 import highlightBlock = hljs.highlightBlock;
 
-
 @Component({
   selector: 'markdown',
   template: `<div #html></div>`,
