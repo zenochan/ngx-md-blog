@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, Input
 // npm install --save showdown @types/showdown
 import * as Showdown from "showdown";
 import * as $ from "jquery";
-import {UtilsService} from "../services/utils.service";
-import highlightBlock = hljs.highlightBlock;
+import * as hljs from "highlight.js";
 
 @Component({
   selector: 'markdown',
@@ -23,8 +22,6 @@ export class MarkdownComponent implements OnInit
 
   ngOnInit()
   {
-    UtilsService.loadJS("./adminLTE/plugins/highlight/highlight.pack.js", () => this.highlight());
-    UtilsService.loadCSS("./adminLTE/plugins/highlight/styles/github.css");
   }
 
   //View 内容改变hook

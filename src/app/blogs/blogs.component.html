@@ -12,17 +12,17 @@
 
 <!-- Main content -->
 <section class="content">
-  <!-- row -->
-  <div class="row">
-    <div class="col-md-12">
-      <!-- The time line -->
-      <ul class="timeline">
+  <div class="container">
+    <div class="row">
+      <div class="timeline-centered">
 
-        <!-- 添加新的 blogs -->
-        <li>
-          <i class="fa fa-envelope bg-blue"></i>
-          <div class="timeline-item">
-            <div class="timeline-body">
+        <article class="timeline-entry begin">
+          <div class="timeline-entry-inner">
+            <div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
+              <i class="entypo-flight"></i> +
+            </div>
+
+            <div class="timeline-label">
               <!-- mark down 实时编辑预览 -->
               <div class="nav-tabs-custom">
                 <div class="tab-content no-padding">
@@ -36,57 +36,67 @@
                 </div>
               </div>
               <!-- /mark down 实时编辑预览 -->
-            </div>
-
-            <div class="timeline-footer">
-              <a class="btn btn-primary btn-xs" (click)="create()">添加</a>
-            </div>
-          </div>
-        </li>
-
-        <li *ngFor="let blog of blogs;let i = index">
-
-          <!-- 时间轴标签 -->
-          <ul class="timeline" *ngIf="showTimelineLabel(i)">
-            <li class="time-label"><span class="bg-red" [innerText]="timelineLabel(blog.created_at)"></span></li>
-          </ul>
-
-          <i class="fa fa-envelope bg-blue" [routerLink]="['/blogs',blog.id]"></i>
-          <div class="timeline-item">
-            <span class="time">Updated At <i class="fa fa-clock-o"></i> {{blog.updated_at}}</span>
-
-            <div class="timeline-body">
-              <markdown [markdown]="blog.blog" *ngIf="!blog.edit"></markdown>
-              <textarea [(ngModel)]="blog.blog" *ngIf="blog.edit" class="item-blog"></textarea>
-            </div>
-
-            <div class="timeline-footer" *ngIf="!blog.edit">
-              <a class="btn btn-primary btn-xs" (click)="editBlog(blog)">编辑</a>
-              <a class="btn btn-danger btn-xs" (click)="deleteBlog(blog)">删除</a>
-            </div>
-            <div class="timeline-footer" *ngIf="blog.edit">
-              <a class="btn btn-primary btn-xs" (click)="editSubmit(blog)">保存</a>
-              <a class="btn btn-default btn-xs" (click)="editCancel(blog)">取消</a>
+              <div class="timeline-footer">
+                <a class="btn btn-primary btn-xs" (click)="create()">添加</a>
+              </div>
             </div>
           </div>
-        </li>
+        </article>
 
+        <article class="timeline-entry" *ngFor="let blog of blogs;let i = index">
+          <div class="timeline-entry-inner">
 
-        <!-- END timeline item -->
-        <li infinite-scroll
-            [infiniteScrollDistance]="2"
-            (scrolled)="loadMore()">
-          <i class="fa fa-clock-o bg-gray"></i>
-          <div *ngIf="loading" class="timeline-item">
-            <div class="timeline-body"> loading ...</div>
+            <div class="timeline-icon bg-warning" [routerLink]="['/blogs',blog.id]">
+              <i class="entypo-camera"></i>
+
+              <!-- 时间轴标签 -->
+              <div class="time-label data" *ngIf="showTimelineLabel(i)">
+                {{timelineLabel(blog.created_at)}}
+                <!--<span class="bg-red" [innerText]="timelineLabel(blog.created_at)"></span>-->
+              </div>
+
+            </div>
+
+            <div class="timeline-label">
+              <div class="timeline-item">
+                <span class="time">Updated At <i class="fa fa-clock-o"></i> {{blog.updated_at}}</span>
+
+                <div class="timeline-body">
+                  <markdown [markdown]="blog.blog" *ngIf="!blog.edit"></markdown>
+                  <textarea [(ngModel)]="blog.blog" *ngIf="blog.edit" class="item-blog"></textarea>
+                </div>
+
+                <div class="timeline-footer" *ngIf="!blog.edit">
+                  <a class="btn btn-primary btn-xs" (click)="editBlog(blog)">编辑</a>
+                  <a class="btn btn-danger btn-xs" (click)="deleteBlog(blog)">删除</a>
+                </div>
+                <div class="timeline-footer" *ngIf="blog.edit">
+                  <a class="btn btn-primary btn-xs" (click)="editSubmit(blog)">保存</a>
+                  <a class="btn btn-default btn-xs" (click)="editCancel(blog)">取消</a>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </li>
-      </ul>
+        </article>
+
+        <article>
+          <!-- END timeline item -->
+          <div infinite-scroll
+               [infiniteScrollDistance]="2"
+               (scrolled)="loadMore()">
+            <i class="fa fa-clock-o bg-gray"></i>
+            <div *ngIf="loading" class="timeline-item">
+              <div class="timeline-body"> loading ...</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+
     </div>
-    <!-- /.col -->
   </div>
-  <!-- /.row -->
-
 </section>
 <!-- /.content -->
 

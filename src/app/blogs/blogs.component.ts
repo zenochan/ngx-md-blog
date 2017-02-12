@@ -2,9 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {ApiService} from "../services/api.service";
 import "../extends.date";
 import {Blog} from "../models";
-import highlightBlock = hljs.highlightBlock;
-import timeout = Q.timeout;
-import {error} from "util";
 
 @Component({
   selector: 'app-blog',
@@ -27,7 +24,7 @@ export class BlogsComponent implements OnInit
 
   ngOnInit()
   {
-    console.log(new Date("2016-12-30 17:27:15").weekOfYear());
+    console.log(new Date("2016/12/30 17:27:15").weekOfYear());
     this.getBlogs(null);
   }
 
@@ -141,7 +138,7 @@ export class BlogsComponent implements OnInit
 // 格式化标签
   timelineLabel(date: string)
   {
-    let week = new Date(date).weekOfYear();
+    let week = new Date(date.replace(/-/g,'/')).weekOfYear();
     return week[0] + "年  第" + week[1] + "周";
   }
 
@@ -151,8 +148,8 @@ export class BlogsComponent implements OnInit
     if (index == 0) {
       return true;
     } else {
-      let preBlog = new Date(this.blogs[index - 1].created_at).weekOfYear();
-      let blog = new Date(this.blogs[index].created_at).weekOfYear();
+      let preBlog = new Date(this.blogs[index - 1].created_at.replace(/-/g,'/')).weekOfYear();
+      let blog = new Date(this.blogs[index].created_at.replace(/-/g,'/')).weekOfYear();
 
       return preBlog[0] != blog[0] || preBlog[1] != blog[1];
     }

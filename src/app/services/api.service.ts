@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {RequestOptions, Http, Headers} from "@angular/http";
+import {RequestOptions, Http, Headers, Jsonp} from "@angular/http";
 import {Observable} from "rxjs";
 import "rxjs/Rx";
 import {environment} from "../../environments/environment";
@@ -12,7 +12,7 @@ export class ApiService
       : "http://localhost/service/laravel5.3/";
   options: RequestOptions;
 
-  constructor(private http: Http)
+  constructor(private http: Http,private  jsonp:Jsonp)
   {
     let headers: Headers = new Headers();
     headers.append("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
@@ -68,6 +68,11 @@ export class ApiService
       }
       return result.data;
     });
+  }
+
+  jsonpGet(url)
+  {
+    return this.jsonp.get(url);
   }
 
   static serializeData(data)

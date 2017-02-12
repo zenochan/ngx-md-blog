@@ -6,7 +6,7 @@ declare interface Date
 // 周次
 Date.prototype.weekOfYear = function ()
 {
-  var year = this.getFullYear();
+  let year = this.getFullYear();
   let d = new Date(this);
   d.setHours(0, 0, 0, 0);
 

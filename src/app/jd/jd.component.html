@@ -1,1 +1,6 @@
+<div style="position: fixed;background: rgba(0,0,0,0.1);border-radius: 16px;z-index: 999">
+  <button class="btn btn-primary" [innerText]="price.id"></button>
+  <button class="btn btn-primary" [innerText]="price.op"></button>
+  <button class="btn btn-primary" [innerText]="price.p"></button>
+</div>
 <iframe #jdFrame style="width: 100vw;height: 100vh;" [src]="src" (load)="onLoadJd()"></iframe>

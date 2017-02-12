@@ -1,7 +1,7 @@
 {
   "project": {
     "version": "1.0.0-beta.20-4",
-    "name": "ng2-admin-lte"
+    "name": "md blog"
   },
   "apps": [
     {
@@ -10,7 +10,6 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "adminLTE",
         "static"
       ],
       "index": "index.html",
