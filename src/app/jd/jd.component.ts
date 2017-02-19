@@ -4,6 +4,9 @@ import {Subscription} from "rxjs";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ApiService} from "../services/api.service";
 
+/**
+ * 抓取京东商品基本价格
+ */
 @Component({
   selector: 'app-jd',
   templateUrl: './jd.component.html',
@@ -34,11 +37,12 @@ export class JdComponent implements OnInit,OnDestroy
       this.api.jsonpGet("http://p.3.cn/prices/get?callback=JSONP_CALLBACK&skuid=J_" + this.id)
           .map(res => res.json()[0])
           .toPromise()
-          .then(res=>{
+          .then(res =>
+          {
             this.price = res;
             console.log('price', this.price)
           })
-          .catch(err=> console.error(err))
+          .catch(err => console.error(err))
     });
   }
 
