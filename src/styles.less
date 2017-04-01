@@ -1,11 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/less/bootstrap";
-@import "../node_modules/font-awesome/less/font-awesome";
-@import "../node_modules/highlight.js/styles/darcula.css";
+@import "~bootstrap/less/bootstrap";
+@import "~font-awesome/less/font-awesome";
+@import "~highlight.js/styles/darcula.css";
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 @import "load";
 
-pre {
+pre, code {
   border-radius: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: scroll;
 }
 
+html,body{
+  background: #e8e8e8;
+}
+
+th,td{
+  min-width: 56px;
+  border:solid 1px #cccccc;
+  padding: 4px;
+}

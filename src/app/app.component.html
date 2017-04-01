@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="navbar">
+    <input placeholder="Search" class="search-input" [(ngModel)]="keywordInput" (keydown)="keywordKeydown($event)">
+
+    <button class="search-btn" (click)="search()" style="">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+  <div class="body">
+    <div class="menubar">
+      <button md-button [routerLink]="['/blogs']">B L O G</button>
+      <button md-button [routerLink]="['/jd/1060555']">JD' PRICE</button>
+      <button md-button [routerLink]="['/iframe/','http://fontawesome.io/icons/']">Font Ansome</button>
+      <button md-button [routerLink]="['/iframe/','https://material.angular.io/components']">Material</button>
+      <button md-button [routerLink]="['/iframe/','https://daneden.github.io/animate.css/']">animate</button>
+      <button md-button [routerLink]="['/iframe/','http://ionicframework.com/docs/v2/ionicons/']">Ionic2 Icons</button>
+
+      <button md-button [routerLink]="['/test']" style="margin-top: 36px">T E S T</button>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

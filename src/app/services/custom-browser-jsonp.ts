@@ -1,4 +1,5 @@
 import {BrowserJsonp} from "@angular/http/src/backends/browser_jsonp";
+import {NgModel} from "@angular/forms";
 /**
  * Created by zenochan on 2017/2/12.
  */

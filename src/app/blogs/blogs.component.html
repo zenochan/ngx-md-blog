@@ -1,102 +1,48 @@
-<header>
-  <div class="input-group">
-    <input [(ngModel)]="keywordInput" (keydown)="keywordKeydown($event)" type="text" name="q" class="form-control"
-           placeholder="Search...">
-    <span class="input-group-btn">
-      <button (click)="search()" type="submit" name="search" id="search-btn" class="btn btn-flat">
-        <i class="fa fa-search"></i>
-      </button>
-    </span>
-  </div>
-</header>
+<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="onSelect($event)" [dynamicHeight]="true">
+  <md-tab label="BLOG">
+    <md-card *ngFor="let blog of blogs;let i = index">
+      <md-card-actions>
+        <button md-button (click)="editBlog(blog)"><span class="fa fa-pencil-square-o"></span> EDIT</button>
+        <button md-button (click)="deleteBlog(blog)"><span class="fa fa-trash-o"></span> DELETE</button>
+        <button md-button (click)="view(blog)"><span class="fa fa-info"></span></button>
 
-<!-- Main content -->
-<section class="content">
-  <div class="container">
-    <div class="row">
-      <div class="timeline-centered">
+        <button md-button><span class="fa fa-heart-o"></span></button>
+        <button md-button><span class="fa fa-comment-o"></span></button>
+      </md-card-actions>
+      <md-card-content>
+        <markdown [markdown]="blog.blog"></markdown>
+      </md-card-content>
+    </md-card>
 
-        <article class="timeline-entry begin">
-          <div class="timeline-entry-inner">
-            <div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
-              <i class="entypo-flight"></i> +
+    <md-card (click)="loadMore()">
+      <div [ngSwitch]="loading">
+        <md-progress-bar *ngSwitchCase="true" mode="buffer"></md-progress-bar>
+        <div *ngSwitchDefault class="load-more">
+          <div [ngSwitch]="loadAll">
+            <div *ngSwitchCase="true">
+              <div class="load-all"></div>
+              <span style="color: #d0d0d0">●</span>
+              <div class="load-all"></div>
             </div>
-
-            <div class="timeline-label">
-              <!-- mark down 实时编辑预览 -->
-              <div class="nav-tabs-custom">
-                <div class="tab-content no-padding">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane" [ngClass]="{active: navSelect != 1}" id="revenue-chart"
-                       style="position: relative; height: 300px;">
-                    <textarea [(ngModel)]="newBlog" class="item-create"></textarea>
-                    <markdown [markdown]="newBlog" style="width: 50%;float: left;height: 100%;
-                      overflow: scroll;padding: 8px"></markdown>
-                  </div>
-                </div>
-              </div>
-              <!-- /mark down 实时编辑预览 -->
-              <div class="timeline-footer">
-                <a class="btn btn-primary btn-xs" (click)="create()">添加</a>
-              </div>
-            </div>
+            <div *ngSwitchDefault>Click For Load More</div>
           </div>
-        </article>
-
-        <article class="timeline-entry" *ngFor="let blog of blogs;let i = index">
-          <div class="timeline-entry-inner">
-
-            <div class="timeline-icon bg-warning" [routerLink]="['/blogs',blog.id]">
-              <i class="entypo-camera"></i>
-
-              <!-- 时间轴标签 -->
-              <div class="time-label data" *ngIf="showTimelineLabel(i)">
-                {{timelineLabel(blog.created_at)}}
-                <!--<span class="bg-red" [innerText]="timelineLabel(blog.created_at)"></span>-->
-              </div>
-
-            </div>
-
-            <div class="timeline-label">
-              <div class="timeline-item">
-                <span class="time">Updated At <i class="fa fa-clock-o"></i> {{blog.updated_at}}</span>
-
-                <div class="timeline-body">
-                  <markdown [markdown]="blog.blog" *ngIf="!blog.edit"></markdown>
-                  <textarea [(ngModel)]="blog.blog" *ngIf="blog.edit" class="item-blog"></textarea>
-                </div>
-
-                <div class="timeline-footer" *ngIf="!blog.edit">
-                  <a class="btn btn-primary btn-xs" (click)="editBlog(blog)">编辑</a>
-                  <a class="btn btn-danger btn-xs" (click)="deleteBlog(blog)">删除</a>
-                </div>
-                <div class="timeline-footer" *ngIf="blog.edit">
-                  <a class="btn btn-primary btn-xs" (click)="editSubmit(blog)">保存</a>
-                  <a class="btn btn-default btn-xs" (click)="editCancel(blog)">取消</a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </article>
-
-        <article>
-          <!-- END timeline item -->
-          <div infinite-scroll
-               [infiniteScrollDistance]="2"
-               (scrolled)="loadMore()">
-            <i class="fa fa-clock-o bg-gray"></i>
-            <div *ngIf="loading" class="timeline-item">
-              <div class="timeline-body"> loading ...</div>
-            </div>
-          </div>
-        </article>
-
+        </div>
       </div>
+    </md-card>
+  </md-tab>
 
+  <md-tab label="{{blogEdit?'EDIT':'NEW'}}">
+    <md-card>
+      <md-card-header>
+        <md-card-actions>
+          <button md-button (click)="blogEdit?editSubmit(blogEdit):create()">SAVE</button>
+          <button md-button (click)="editCancel()">CANCEL</button>
+        </md-card-actions>
+      </md-card-header>
+      <md-card-content>
 
-    </div>
-  </div>
-</section>
-<!-- /.content -->
-
+        <textarea [(ngModel)]="blogContent" style="width: 100%;height:calc(100vh - 280px);resize: none"></textarea>
+      </md-card-content>
+    </md-card>
+  </md-tab>
+</md-tab-group>

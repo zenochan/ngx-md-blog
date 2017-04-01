@@ -1,31 +1,57 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ApiService} from "../services/api.service";
 import "../extends.date";
 import {Blog} from "../models";
+import {EventsService} from "../services/events.service";
+import {MdSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-blog',
   templateUrl: 'blogs.component.html',
-  styleUrls: ['blogs.component.less']
+  styleUrls: ['blogs.component.less'],
 })
-export class BlogsComponent implements OnInit
+export class BlogsComponent implements OnInit,OnDestroy
 {
   blogs: Array<Blog> = [];
+
+  selectedIndex = 0;
   blogEdit;
-  newBlog: string = "## 添加 `MARKDOWN` 日志";
+  blogContent;
 
   loadAll: boolean = false;
   loading: boolean = false;
 
-  keywordInput: String = null;
   keyword: String = null;
+  onSearch: (keyword: string) => void;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private events: EventsService,
+              private snackBar: MdSnackBar)
+  {
+  }
 
   ngOnInit()
   {
-    console.log(new Date("2016/12/30 17:27:15").weekOfYear());
     this.getBlogs(null);
+
+    this.onSearch = (keyword) =>
+    {
+      this.keyword = keyword;
+      this.loadAll = false;
+      this.getBlogs(null);
+      this.selectedIndex = 0;
+    };
+    this.events.subscribe("search", this.onSearch);
+  }
+
+
+  ngOnDestroy(): void
+  {
+    this.events.unsubscribe("search", this.onSearch);
+  }
+
+  onSelect($event)
+  {
+    this.selectedIndex = $event.index;
   }
 
   loadMore()
@@ -33,23 +59,10 @@ export class BlogsComponent implements OnInit
     this.getBlogs(this.blogs[this.blogs.length - 1].created_at);
   }
 
-  search()
-  {
-    this.keyword = this.keywordInput;
-    this.loadAll = false;
-    this.getBlogs(null);
-  }
-
-  keywordKeydown(event)
-  {
-    if (event.keyCode == 13) {
-      this.search();
-    }
-  }
-
   getBlogs(before)
   {
     if (this.loading || this.loadAll) {
+      console.log(this.loading, this.loadAll);
       return;
     }
 
@@ -77,10 +90,11 @@ export class BlogsComponent implements OnInit
   // 新增
   create()
   {
-    this.api.post("api/blogs", {"blog": this.newBlog, "password": prompt("输入口令")}).subscribe(blogs =>
+    this.api.post("api/blogs", {"blog": this.blogContent, "password": prompt("输入口令")}).subscribe(blogs =>
     {
       this.blogs = [blogs[0]].concat(this.blogs);
-      this.newBlog = "# 添加成功";
+      this.selectedIndex = 0;
+      this.openSnackBar("保存成功");
     }, error => alert(error));
   }
 
@@ -101,44 +115,48 @@ export class BlogsComponent implements OnInit
     );
   }
 
+
+  view(blog)
+  {
+    window.open(location.protocol +"//"+ location.host + '/blogs/' + blog.id);
+  }
+
 // 编辑日志， 一次只编辑一个
   editBlog(blog)
   {
-    if (this.blogEdit) {
-      this.blogEdit.blog = this.blogEdit.blog_old;
-      this.blogEdit.edit = false;
+    console.log(1);
+    this.selectedIndex = 1;
+    if (blog != this.blogEdit) {
+      this.blogEdit = blog;
+      this.blogContent = blog.blog;
     }
-    this.blogEdit = blog;
-
-    blog.blog_old = blog.blog;
-    blog.edit = true;
   }
 
 // 提交修改
   editSubmit(blog)
   {
-    this.api.patch("api/blogs/" + blog.id, {"blog": blog.blog, "password": prompt("输入口令")}).subscribe(res =>
+    this.api.patch("api/blogs/" + blog.id, {"blog": this.blogContent, "password": prompt("输入口令")}).subscribe(res =>
     {
-      blog.blog_old = null;
+      blog.blog = this.blogContent;
+      this.blogContent = '';
       this.blogEdit = null;
-      blog.edit = false;
+      this.selectedIndex = 0;
+      this.openSnackBar("保存成功");
     }, error => {alert(error);});
   }
 
 // 取消编辑
   editCancel()
   {
-    if (this.blogEdit) {
-      this.blogEdit.blog = this.blogEdit.blog_old;
-      this.blogEdit.edit = false;
-      this.blogEdit = null;
-    }
+    this.selectedIndex = 0;
+    this.blogEdit = null;
+    this.blogContent = null;
   }
 
 // 格式化标签
   timelineLabel(date: string)
   {
-    let week = new Date(date.replace(/-/g,'/')).weekOfYear();
+    let week = new Date(date.replace(/-/g, '/')).weekOfYear();
     return week[0] + "年  第" + week[1] + "周";
   }
 
@@ -148,11 +166,18 @@ export class BlogsComponent implements OnInit
     if (index == 0) {
       return true;
     } else {
-      let preBlog = new Date(this.blogs[index - 1].created_at.replace(/-/g,'/')).weekOfYear();
-      let blog = new Date(this.blogs[index].created_at.replace(/-/g,'/')).weekOfYear();
+      let preBlog = new Date(this.blogs[index - 1].created_at.replace(/-/g, '/')).weekOfYear();
+      let blog = new Date(this.blogs[index].created_at.replace(/-/g, '/')).weekOfYear();
 
       return preBlog[0] != blog[0] || preBlog[1] != blog[1];
     }
+  }
+
+  openSnackBar(message: string)
+  {
+    this.snackBar.open(message, null, {
+      duration: 2000,
+    });
   }
 
 }
