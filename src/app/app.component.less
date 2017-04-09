@@ -1,8 +1,16 @@
 
+::-webkit-scrollbar {display:none;}
+*{
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
 .scrollY {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
+
 
 .container {
   display: flex;
@@ -74,11 +82,15 @@
       button{
         width: 100%;
       }
+
+      .active{
+        background: grey;
+      }
     }
 
     .content {
       margin-left: 16px;
-      flex: 1 0 360px;
+      flex: 1 1 360px;
       overflow: scroll;
     }
   }
@@ -89,3 +101,4 @@
     display: none;
   }
 }
+

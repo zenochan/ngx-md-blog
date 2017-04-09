@@ -10,6 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
+        "libs",
         "static"
       ],
       "index": "index.html",
@@ -23,7 +24,6 @@
       ],
       "scripts": [
       ],
-
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

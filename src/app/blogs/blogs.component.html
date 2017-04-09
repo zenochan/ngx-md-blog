@@ -1,14 +1,28 @@
 <md-tab-group [selectedIndex]="selectedIndex" (selectChange)="onSelect($event)" [dynamicHeight]="true">
   <md-tab label="BLOG">
     <md-card *ngFor="let blog of blogs;let i = index">
-      <md-card-actions>
+      <md-card-actions style="margin-bottom: 0">
         <button md-button (click)="editBlog(blog)"><span class="fa fa-pencil-square-o"></span> EDIT</button>
         <button md-button (click)="deleteBlog(blog)"><span class="fa fa-trash-o"></span> DELETE</button>
         <button md-button (click)="view(blog)"><span class="fa fa-info"></span></button>
 
         <button md-button><span class="fa fa-heart-o"></span></button>
         <button md-button><span class="fa fa-comment-o"></span></button>
+
+        <span style="font-size: 13px;color: #727272;margin: 4px;float: right">{{blog.created_at}}</span>
       </md-card-actions>
+      <div>
+        <span class="label label-success" style="margin-right: 16px" *ngFor="let tag of blog.tags;let tagIndex = index">
+          {{tag.tag}}
+          <span class="delete" (click)="removeTag(blog,tagIndex);$event.stopPropagation();"> x </span>
+        </span>
+        <md-input-container>
+          <input mdInput placeholder="ADD TAG" maxlength="16" [(ngModel)]="blog.tagEdit"
+                 (keydown)="onTagInputKeyDown($event,blog)">
+        </md-input-container>
+
+      </div>
+
       <md-card-content>
         <markdown [markdown]="blog.blog"></markdown>
       </md-card-content>

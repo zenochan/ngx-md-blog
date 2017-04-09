@@ -15,6 +15,13 @@
       <button md-button [routerLink]="['/iframe/','https://daneden.github.io/animate.css/']">animate</button>
       <button md-button [routerLink]="['/iframe/','http://ionicframework.com/docs/v2/ionicons/']">Ionic2 Icons</button>
 
+      <div style="height: 2em"></div>
+      <button md-button *ngFor="let tag of tags" [routerLink]="['/blogs/tags/',tag.tag]" routerLinkActive="active">
+        {{tag.tag}}
+        <span *ngIf="tag.count>1">({{tag.count}})</span>
+      </button>
+
+
       <button md-button [routerLink]="['/test']" style="margin-top: 36px">T E S T</button>
     </div>
     <div class="content">

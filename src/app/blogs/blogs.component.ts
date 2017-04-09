@@ -4,13 +4,15 @@ import "../extends.date";
 import {Blog} from "../models";
 import {EventsService} from "../services/events.service";
 import {MdSnackBar} from "@angular/material";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-blog',
   templateUrl: 'blogs.component.html',
   styleUrls: ['blogs.component.less'],
 })
-export class BlogsComponent implements OnInit,OnDestroy
+export class BlogsComponent implements OnInit, OnDestroy
 {
   blogs: Array<Blog> = [];
 
@@ -24,14 +26,24 @@ export class BlogsComponent implements OnInit,OnDestroy
   keyword: String = null;
   onSearch: (keyword: string) => void;
 
+
+  paramSub: Subscription;
+  tagName;
+
   constructor(private api: ApiService, private events: EventsService,
+              private route: ActivatedRoute,
               private snackBar: MdSnackBar)
   {
   }
 
   ngOnInit()
   {
-    this.getBlogs(null);
+    this.paramSub = this.route.params.subscribe(param =>
+    {
+      this.tagName = param.tag || null;
+      this.loadAll = false;
+      this.getBlogs(null);
+    });
 
     this.onSearch = (keyword) =>
     {
@@ -43,10 +55,37 @@ export class BlogsComponent implements OnInit,OnDestroy
     this.events.subscribe("search", this.onSearch);
   }
 
-
   ngOnDestroy(): void
   {
     this.events.unsubscribe("search", this.onSearch);
+    this.paramSub.unsubscribe();
+  }
+
+
+  onTagInputKeyDown($event, blog)
+  {
+    if ($event.keyCode == 13 && (<string>blog.tagEdit).trim().length > 0) {
+      this.loading = true;
+      this.api.post("api/blogs/" + blog.id + "/tags/" + blog.tagEdit.trim(), null).subscribe(
+          data =>
+          {
+            blog.tags.push(data[0]);
+            blog.tagEdit = null;
+          },
+          e => alert(e),
+          () => this.loading = false
+      );
+    }
+  }
+
+  removeTag(blog, tagIndex)
+  {
+    this.loading = true;
+    this.api.delete("api/blogs/" + blog.id + "/tags/" + blog.tags[tagIndex].id).subscribe(
+        data => blog.tags.splice(tagIndex, 1),
+        e => alert(e),
+        () => this.loading = false
+    );
   }
 
   onSelect($event)
@@ -72,7 +111,7 @@ export class BlogsComponent implements OnInit,OnDestroy
     if (before == null) {
       this.blogs = [];
     }
-    this.api.get("api/blogs?before=" + before + "&keyword=" + this.keyword).subscribe(
+    this.api.get("api/blogs?before=" + before + "&keyword=" + this.keyword + "&tag=" + this.tagName).subscribe(
         blogs =>
         {
           this.blogs = this.blogs.concat(<Array<Blog>>blogs);
@@ -118,7 +157,7 @@ export class BlogsComponent implements OnInit,OnDestroy
 
   view(blog)
   {
-    window.open(location.protocol +"//"+ location.host + '/blogs/' + blog.id);
+    window.open(location.protocol + "//" + location.host + '/blogs/' + blog.id);
   }
 
 // 编辑日志， 一次只编辑一个

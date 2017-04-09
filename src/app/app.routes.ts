@@ -10,6 +10,7 @@ import {IframeComponent} from "./iframe/iframe.component";
 export const routes: Routes = [
   {path: "blogs/:id", component: BlogComponent},
   {path: "blogs", component: BlogsComponent},
+  {path: "blogs/tags/:tag", component: BlogsComponent},
   {path: "jd/:id", component: JdComponent},
   {path: "iframe/:url", component: IframeComponent},
   {path: 'test', component: TestComponent},

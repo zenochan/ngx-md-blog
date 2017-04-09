@@ -14,3 +14,25 @@ md-card {
   margin: 0 8px;
   border-top: #d0d0d0 2px solid;
 }
+
+
+.delete{
+  display: none;
+  padding: 8px 4px;
+  &:hover{
+    color: #727272;
+  }
+  cursor: pointer;
+}
+
+.label{
+  cursor: move;
+  transition: width;
+}
+
+.label:hover {
+
+  .delete{
+    display: inherit;
+  }
+}

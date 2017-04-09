@@ -6,9 +6,14 @@ import * as hljs from "highlight.js";
 
 @Component({
   selector: 'markdown',
-  template: `<div #html></div>`,
+  template: `
+    <div #html></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [` th,td{ display :inline-block;min-width: 100px; border:solid 1px #d1d1d1; } `]
+  styles: [` th, td {
+    display: inline-block;
+    min-width: 100px;
+    border: solid 1px #d1d1d1;
+  } `]
 })
 export class MarkdownComponent implements OnInit
 {
