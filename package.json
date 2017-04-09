@@ -3,12 +3,27 @@
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
+  "build": {
+    "appId": "name.zenochan.blog",
+    "mac": {
+      "category": "blog"
+    },
+    "directories": {
+      "output": "release",
+      "app": "dist",
+      "buildResources": "build"
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-electron": "ng build --prod --base-href . && cp src/electron/* dist",
+    "electron": "npm run build-electron && electron dist",
+    "pack": "build --dir",
+    "dist": "npm run build-electron && build"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +63,8 @@
     "@types/node": "^6.0.42",
     "@types/showdown": "^1.4.31",
     "codelyzer": "^2.0.0",
+    "electron-builder": "^16.8.0",
+    "electron-prebuilt": "^1.4.13",
     "gulp": "^3.9.1",
     "gulp-replace": "^0.5.4",
     "jasmine-core": "~2.5.2",

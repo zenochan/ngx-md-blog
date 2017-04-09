@@ -1,0 +1,7 @@
+{
+  "name": "angular-electron",
+  "version": "0.1.0",
+  "description": "BLOG application built with Electron and Angular 4",
+  "author": "Zeno Chan",
+  "main": "electron.ts"
+}
