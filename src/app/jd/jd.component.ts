@@ -18,7 +18,7 @@ export class JdComponent implements OnInit, OnDestroy
   sub: Subscription;
 
   src: SafeResourceUrl;
-  price:any = {};
+  price: any = {};
   id: any;
 
   onSearch;

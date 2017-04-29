@@ -1,5 +1,4 @@
 import {BrowserJsonp} from "@angular/http/src/backends/browser_jsonp";
-import {NgModel} from "@angular/forms";
 /**
  * Created by zenochan on 2017/2/12.
  */
@@ -12,6 +11,12 @@ function getJsonpCallbackName(id: string): string
 
 export class CustomBrowserJsonp extends BrowserJsonp
 {
+
+  getJsonpCallbackName(id: string): string
+  {
+    return `__custom__ng__jsonp${id}__`
+  }
+
   requestCallback(id: string): string
   {
     return getJsonpCallbackName(id)

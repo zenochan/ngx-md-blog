@@ -53,9 +53,8 @@
           <button md-button (click)="editCancel()">CANCEL</button>
         </md-card-actions>
       </md-card-header>
-      <md-card-content>
-
-        <textarea [(ngModel)]="blogContent" style="width: 100%;height:calc(100vh - 280px);resize: none"></textarea>
+      <md-card-content  style="width: 100%;height:calc(100vh - 280px);overflow-y: scroll">
+        <simplemde [(markdown)]="blogContent"></simplemde>
       </md-card-content>
     </md-card>
   </md-tab>

@@ -1,7 +1,7 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, enableProdMode, NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
-import {HttpModule, JsonpModule} from "@angular/http";
+import {HttpModule, JSONPBackend, JsonpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
@@ -20,6 +20,7 @@ import {MaterialModule, MdSnackBarModule} from "@angular/material";
 import "hammerjs";
 import {IframeComponent} from "./iframe/iframe.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { SimplemdeComponent } from './common/simplemde.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     TestComponent,
     NewBlogComponent,
     IframeComponent,
+    SimplemdeComponent,
   ],
   imports: [
     BrowserModule,

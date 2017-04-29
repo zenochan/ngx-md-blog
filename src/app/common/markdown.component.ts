@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectionStrategy, Input} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import * as $ from "jquery";
 // npm install --save showdown @types/showdown
 import * as Showdown from "showdown";
@@ -33,7 +33,6 @@ export class MarkdownComponent implements OnInit
       MarkdownComponent.converter.setOption("simplifiedAutoLink", 'true');
       MarkdownComponent.converter.setOption("excludeTrailingPunctuationFromURLs", 'true');
       MarkdownComponent.converter.setOption("tasklists", 'true');
-      //MarkdownComponent.converter.setOption("simpleLineBreaks", 'true');
       MarkdownComponent.converter.setOption("ghMentions", 'true');
     }
   }

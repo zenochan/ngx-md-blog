@@ -2,7 +2,8 @@
 @import "~bootstrap/less/bootstrap";
 @import "~font-awesome/less/font-awesome";
 @import "~highlight.js/styles/darcula.css";
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~simplemde/dist/simplemde.min.css";
 @import "load";
 
 pre, code {
@@ -12,12 +13,18 @@ pre, code {
   overflow-x: scroll;
 }
 
-html,body{
+html, body {
   background: #e8e8e8;
 }
 
-th,td{
+th, td {
   min-width: 56px;
-  border:solid 1px #cccccc;
+  border: solid 1px #cccccc;
   padding: 4px;
 }
+
+.CodeMirror{
+  height: 86% !important;
+  overflow-y: scroll !important;
+}
+

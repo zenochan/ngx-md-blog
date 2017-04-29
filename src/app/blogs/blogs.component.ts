@@ -131,6 +131,7 @@ export class BlogsComponent implements OnInit, OnDestroy
   {
     this.api.post("api/blogs", {"blog": this.blogContent, "password": prompt("输入口令")}).subscribe(blogs =>
     {
+      blogs[0].tags = [];
       this.blogs = [blogs[0]].concat(this.blogs);
       this.selectedIndex = 0;
       this.openSnackBar("保存成功");
@@ -163,7 +164,6 @@ export class BlogsComponent implements OnInit, OnDestroy
 // 编辑日志， 一次只编辑一个
   editBlog(blog)
   {
-    console.log(1);
     this.selectedIndex = 1;
     if (blog != this.blogEdit) {
       this.blogEdit = blog;
