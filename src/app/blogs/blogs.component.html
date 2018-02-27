@@ -1,36 +1,43 @@
-<md-tab-group [selectedIndex]="selectedIndex" (selectChange)="onSelect($event)" [dynamicHeight]="true">
-  <md-tab label="BLOG">
-    <md-card *ngFor="let blog of blogs;let i = index">
-      <md-card-actions style="margin-bottom: 0">
-        <button md-button (click)="editBlog(blog)"><span class="fa fa-pencil-square-o"></span> EDIT</button>
-        <button md-button (click)="deleteBlog(blog)"><span class="fa fa-trash-o"></span> DELETE</button>
-        <button md-button (click)="view(blog)"><span class="fa fa-info"></span></button>
+<mat-tab-group [selectedIndex]="selectedIndex" (selectChange)="onSelect($event)" [dynamicHeight]="true">
+  <mat-tab label="BLOG">
+    <mat-card *ngFor="let blog of blogs;let i = index">
+      <mat-card-actions style="margin-bottom: 0">
+        <button mat-button (click)="editBlog(blog)"><span class="fa fa-pencil-square-o"></span> EDIT</button>
+        <button mat-button (click)="deleteBlog(blog)"><span class="fa fa-trash-o"></span> DELETE</button>
 
-        <button md-button><span class="fa fa-heart-o"></span></button>
-        <button md-button><span class="fa fa-comment-o"></span></button>
+        <span *ngIf="!spider">
+          <button mat-button (click)="view(blog)"><span class="fa fa-info"></span></button>
+        </span>
+        <span *ngIf="spider">
+          <a href="/blogs/{{blog.id}}" target="_blank">
+            <button mat-button>
+              <span class="fa fa-info"></span>
+            </button>
+          </a>
+        </span>
 
         <span style="font-size: 13px;color: #727272;margin: 4px;float: right">{{blog.created_at}}</span>
-      </md-card-actions>
+      </mat-card-actions>
       <div>
         <span class="label label-success" style="margin-right: 16px" *ngFor="let tag of blog.tags;let tagIndex = index">
           {{tag.tag}}
           <span class="delete" (click)="removeTag(blog,tagIndex);$event.stopPropagation();"> x </span>
         </span>
-        <md-input-container>
-          <input mdInput placeholder="ADD TAG" maxlength="16" [(ngModel)]="blog.tagEdit"
+        <mat-input-container>
+          <input matInput placeholder="ADD TAG" maxlength="16" [(ngModel)]="blog.tagEdit"
                  (keydown)="onTagInputKeyDown($event,blog)">
-        </md-input-container>
+        </mat-input-container>
 
       </div>
 
-      <md-card-content>
+      <mat-card-content>
         <markdown [markdown]="blog.blog"></markdown>
-      </md-card-content>
-    </md-card>
+      </mat-card-content>
+    </mat-card>
 
-    <md-card (click)="loadMore()">
+    <mat-card (click)="loadMore()">
       <div [ngSwitch]="loading">
-        <md-progress-bar *ngSwitchCase="true" mode="buffer"></md-progress-bar>
+        <mat-progress-bar *ngSwitchCase="true" mode="buffer"></mat-progress-bar>
         <div *ngSwitchDefault class="load-more">
           <div [ngSwitch]="loadAll">
             <div *ngSwitchCase="true">
@@ -42,20 +49,20 @@
           </div>
         </div>
       </div>
-    </md-card>
-  </md-tab>
+    </mat-card>
+  </mat-tab>
 
-  <md-tab label="{{blogEdit?'EDIT':'NEW'}}">
-    <md-card>
-      <md-card-header>
-        <md-card-actions>
-          <button md-button (click)="blogEdit?editSubmit(blogEdit):create()">SAVE</button>
-          <button md-button (click)="editCancel()">CANCEL</button>
-        </md-card-actions>
-      </md-card-header>
-      <md-card-content  style="width: 100%;height:calc(100vh - 280px);overflow-y: scroll">
+  <mat-tab label="{{blogEdit?'EDIT':'NEW'}}">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-actions>
+          <button mat-button (click)="blogEdit?editSubmit(blogEdit):create()">SAVE</button>
+          <button mat-button (click)="editCancel()">CANCEL</button>
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content style="width: 100%;height:calc(100vh - 280px);overflow-y: scroll">
         <simplemde [(markdown)]="blogContent"></simplemde>
-      </md-card-content>
-    </md-card>
-  </md-tab>
-</md-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

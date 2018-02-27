@@ -15,11 +15,7 @@ export class BlogComponent implements OnInit
 
   ngOnInit()
   {
-    this.route.params.subscribe(param =>
-    {
-      this.getBlog(param["id"]);
-    })
-
+    this.route.params.subscribe(param => this.getBlog(param["id"]));
   }
 
   getBlog(id: number)
@@ -27,6 +23,11 @@ export class BlogComponent implements OnInit
     this.api.get("api/blogs/" + id).subscribe(res =>
     {
       this.blog = (<any>res[0]).blog;
+      let title: string = this.blog.split(/\r|\n/)[0];
+      title = title.replace(/#+ /, "");
+      title = title.replace(/!?\[([^\]]+)](\[[^\]]+\]|\([^\)]+\))/g, (searchValue, $1) => $1);
+      title += " | Zeno' Blog";
+      window.document.title = title;
     }, error => alert(error));
   }
 

@@ -50,8 +50,8 @@ export class JdComponent implements OnInit, OnDestroy
     this.id = id;
     this.src = this.sanitizer.bypassSecurityTrustResourceUrl("https://item.jd.com/" + this.id + ".html");
 
-    this.api.jsonpGet("http://p.3.cn/prices/get?callback=JSONP_CALLBACK&skuid=J_" + this.id)
-        .map(res => res.json()[0])
+    this.api.jsonpGet("http://p.3.cn/prices/get?skuid=J_" + this.id)
+        .map(res => res[0])
         .toPromise()
         .then(res =>
         {

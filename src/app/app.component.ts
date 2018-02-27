@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {EventsService} from "./services/events.service";
 import {ApiService} from "./services/api.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'blog',
@@ -11,10 +12,15 @@ export class AppComponent implements OnInit, OnDestroy
 {
   keywordInput: String = null;
   tags: Array<any>;
+  spider;
 
-  constructor(private events: EventsService, private api: ApiService)
+  constructor(private events: EventsService, private api: ApiService, private route: ActivatedRoute)
   {
     this.api.get("api/tags").subscribe(tags => this.tags = tags);
+    this.route.queryParams.subscribe((querys: any) =>
+    {
+      this.spider = querys.spider;
+    });
   }
 
   ngOnInit(): void

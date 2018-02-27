@@ -8,21 +8,34 @@
   </div>
   <div class="body">
     <div class="menubar">
-      <button md-button [routerLink]="['/blogs']">B L O G</button>
-      <button md-button [routerLink]="['/jd/1060555']">JD' PRICE</button>
-      <button md-button [routerLink]="['/iframe/','http://fontawesome.io/icons/']">Font Ansome</button>
-      <button md-button [routerLink]="['/iframe/','https://material.angular.io/components']">Material</button>
-      <button md-button [routerLink]="['/iframe/','https://daneden.github.io/animate.css/']">animate</button>
-      <button md-button [routerLink]="['/iframe/','http://ionicframework.com/docs/v2/ionicons/']">Ionic2 Icons</button>
+      <button mat-button [routerLink]="['/blogs']">B L O G</button>
+      <button mat-button [routerLink]="['/blogs/150']">IONIC</button>
+      <button mat-button [routerLink]="['/jd/1060555']">JD' PRICE</button>
+      <button mat-button [routerLink]="['/iframe/','http://fontawesome.io/icons/']">Font Ansome</button>
+      <button mat-button [routerLink]="['/iframe/','https://material.angular.io/components']">Material</button>
+      <button mat-button [routerLink]="['/iframe/','https://daneden.github.io/animate.css/']">animate</button>
+      <button mat-button [routerLink]="['/iframe/','http://ionicframework.com/docs/v2/ionicons/']">Ionic2 Icons</button>
 
       <div style="height: 2em"></div>
-      <button md-button *ngFor="let tag of tags" [routerLink]="['/blogs/tags/',tag.tag]" routerLinkActive="active">
-        {{tag.tag}}
-        <span *ngIf="tag.count>1">({{tag.count}})</span>
-      </button>
+
+      <div [ngSwitch]="spider">
+        <div *ngSwitchCase="1">
+          <!--// 百度🕷, 用<a/> 标签-->
+          <a *ngFor="let tag of tags" href="/blogs/tags/{{tag.tag}}">
+            <button mat-button [routerLink]="['/blogs/tags/',tag.tag]" routerLinkActive="active">
+              {{tag.tag}} <span *ngIf="tag.count>1">({{tag.count}})</span>
+            </button>
+          </a>
+        </div>
+        <div *ngSwitchDefault>
+          <button *ngFor="let tag of tags" mat-button [routerLink]="['/blogs/tags/',tag.tag]" routerLinkActive="active">
+            {{tag.tag}} <span *ngIf="tag.count>1">({{tag.count}})</span>
+          </button>
+        </div>
+      </div>
 
 
-      <button md-button [routerLink]="['/test']" style="margin-top: 36px">T E S T</button>
+      <button mat-button [routerLink]="['/test']" style="margin-top: 36px">T E S T</button>
     </div>
     <div class="content">
       <router-outlet></router-outlet>
