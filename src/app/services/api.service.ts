@@ -1,30 +1,27 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, Jsonp, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
 import 'rxjs/Rx';
 import {environment} from '../../environments/environment';
 import * as $ from 'jquery';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class ApiService {
-    times: number = 0;
     apiUrl = environment.production
         ? 'http://blogapi.mjtown.cn/'
         : 'http://localhost/service/laravel5.3/';
-    options: RequestOptions;
+    options;
 
-    constructor(private http: Http, private  jsonp: Jsonp) {
-        let headers: Headers = new Headers();
+    constructor(private http: HttpClient) {
+        let headers: HttpHeaders = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-        this.options = new RequestOptions({
-            headers: headers
-        });
+        this.options = {headers: headers};
     }
 
     get(path: string): Observable<Array<Object>> {
         let href = path.startsWith('http') ? path : this.apiUrl + path;
         return this.http.get(href).map(res => {
-            let result = res.json();
+            let result = res as any;
             if (result.err_code != 0) {
                 throw result.err_msg;
             }
@@ -34,7 +31,7 @@ export class ApiService {
 
     post(url, body: Object): Observable<Object> {
         return this.http.post(this.apiUrl + url, ApiService.serializeData(body), this.options).map(res => {
-            let result = res.json();
+            let result = res as any;
             if (result.err_code != 0) {
                 throw result.err_msg;
             }
@@ -44,7 +41,7 @@ export class ApiService {
 
     patch(url, body: Object): Observable<Object> {
         return this.http.patch(this.apiUrl + url, ApiService.serializeData(body), this.options).map(res => {
-            let result = res.json();
+            let result = res as any;
             if (result.err_code != 0) {
                 throw result.err_msg;
             }
@@ -54,7 +51,7 @@ export class ApiService {
 
     delete(url): Observable<Object> {
         return this.http.delete(this.apiUrl + url).map(res => {
-            let result = res.json();
+            let result = res as any;
             if (result.err_code != 0) {
                 throw result.err_msg;
             }
@@ -78,7 +75,7 @@ export class ApiService {
     static serializeData(data) {
         // If this is not an object, defer to native stringification.
         if (typeof data != 'object') {
-            return ((data == null) ? '' : data.toString());
+            return ((data == null) ? '' : JSON.stringify(data));
         }
         let buffer = [];
         // Serialize each key in the object.
