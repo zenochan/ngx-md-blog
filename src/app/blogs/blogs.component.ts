@@ -29,14 +29,10 @@ export class BlogsComponent implements OnInit, OnDestroy {
     paramSub: Subscription;
     tagName;
 
-    spider;
 
     constructor(private api: ApiService, private events: EventsService,
                 private route: ActivatedRoute,
                 private snackBar: MatSnackBar) {
-        this.route.queryParams.subscribe((params: any) => {
-            this.spider = params.spider;
-        });
     }
 
     ngOnInit() {

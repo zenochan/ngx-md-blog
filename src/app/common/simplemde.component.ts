@@ -11,7 +11,7 @@ import * as $ from "jquery";
 export class SimplemdeComponent implements OnInit
 {
   private static converter: Showdown.Converter;
-  @ViewChild("mde") mde: ElementRef;
+  @ViewChild('mde', {static: true}) mde: ElementRef;
 
   simpleMDE: SimpleMDE;
 

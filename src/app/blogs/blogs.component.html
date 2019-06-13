@@ -4,17 +4,7 @@
       <mat-card-actions style="margin-bottom: 0">
         <button mat-button (click)="editBlog(blog)"><span class="fa fa-pencil-square-o"></span> EDIT</button>
         <button mat-button (click)="deleteBlog(blog)"><span class="fa fa-trash-o"></span> DELETE</button>
-
-        <span *ngIf="!spider">
-          <button mat-button (click)="view(blog)"><span class="fa fa-info"></span></button>
-        </span>
-        <span *ngIf="spider">
-          <a href="/blogs/{{blog.id}}" target="_blank">
-            <button mat-button>
-              <span class="fa fa-info"></span>
-            </button>
-          </a>
-        </span>
+        <button mat-button [routerLink]="['/blogs/',blog.id]"><span class="fa fa-info"></span></button>
 
         <span style="font-size: 13px;color: #727272;margin: 4px;float: right">{{blog.created_at}}</span>
       </mat-card-actions>

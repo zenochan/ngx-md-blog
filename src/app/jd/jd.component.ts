@@ -1,9 +1,9 @@
-import {Component, OnInit, OnDestroy, Sanitizer, ViewChild} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {ApiService} from "../services/api.service";
-import {EventsService} from "../services/events.service";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {ApiService} from '../services/api.service';
+import {EventsService} from '../services/events.service';
 
 /**
  * 抓取京东商品基本价格
